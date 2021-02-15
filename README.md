@@ -31,7 +31,7 @@ You have to set this config value with menuconfig.
 - CONFIG_SPEAKER_NAME   
 Your bluetooth speaker name.   
 ![config-main](https://user-images.githubusercontent.com/6020549/107940288-5c267300-6fcb-11eb-9323-dd8a6cf77c9a.jpg)
-![config-app](https://user-images.githubusercontent.com/6020549/107940298-5e88cd00-6fcb-11eb-8c4a-28639db1df96.jpg)
+![config-app](https://user-images.githubusercontent.com/6020549/107940298-5e88cd00-6fcb-11eb-8c4a-28639db1df96.jpg)   
 You can use [this](https://www.nirsoft.net/utils/bluetooth_viewer.html) application to find the name of your Bluetooth speaker.   
 ![BluetoothView](https://user-images.githubusercontent.com/6020549/107940341-6f394300-6fcb-11eb-96ad-2bfa894812a3.jpg)
 
