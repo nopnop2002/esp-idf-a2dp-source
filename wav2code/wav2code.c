@@ -10,6 +10,7 @@ waveファイルはデータをリトルエンディアンで保存している
 #include <string.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #define HEADERSIZE 44
 
@@ -62,12 +63,6 @@ Sound *Read_Wave(char *filename)
   uint16_t bit_per_sample;            //量子化ビット数
   uint8_t *buf;                       //フォーマットチャンクIDから拡張部分までのデータを取り込む
   uint32_t fmtsize;
-
-  typedef struct _chunk
-  {
-    char id[4];
-    uint32_t size;
-  } ChunkHead_t;
 
   if ((fp = fopen(filename, "rb")) == NULL) {
     fprintf(stderr, "Error: %s could not read.\n", filename);
@@ -130,30 +125,38 @@ Sound *Read_Wave(char *filename)
     }
   }
 
-  ChunkHead_t chunk;
 
-  fread(buf, sizeof(uint8_t), 8, fp);     //factもしくはdataのIDとサイズを取得8バイト
-  printf("CHUNK ID=%c%c%c%c\n",buf[0],buf[1],buf[2],buf[3]);
-  //fread(&chunk, sizeof(chunk), sizeof(chunk), fp);     //factもしくはdataのIDとサイズを取得8バイト
-  //printf("chunk.id=%c%c%c%c chunk.size=%d\n", chunk.id[0], chunk.id[1], chunk.id[2], chunk.id[3], chunk.size);
-  //sleep(10);
+  while(1) { 
+    int len = fread(buf, sizeof(uint8_t), 8, fp);     //chunkのIDとサイズを取得8バイト
+    if (len != 8) {
+      fprintf(stderr, "Error: %s is unknown format.\n", filename);
+      fclose(fp);
+      return NULL;
+    }
+    char id[5] = {0};
+    for (int i=0;i<4;i++) {
+      id[i] = tolower(buf[i]);
+    }
+    printf("CHUNK ID=%s\n",id);
+    //sleep(10);
 
-  if (strncmp(buf, "JUNK", 4) == 0) {
-    fprintf(stderr, "Error: %s is not Support format.\n", filename);
-    fclose(fp);
-    return NULL;
-  }
-
-  if (!strncmp(buf, "fact", 4)) {
-    fread(buf, sizeof(uint8_t), 4, fp);
-    fread(buf, sizeof(uint8_t), 8, fp);
-  }
-
-  if (strncmp(buf, "data", 4)) {
-    fprintf(stderr, "Error: %s data part not found.\n", filename);
-    fclose(fp);
-    return NULL;
-  }
+    if (strcmp(id, "data") == 0) {
+      break;
+    } else {
+      uint32_t listsize;
+      uint8_t dmy;
+      memcpy(&listsize, buf + 4, sizeof(listsize));
+      printf("listsize=%d\n",listsize);
+      for (int i=0;i<listsize;i++) {
+        int len = fread(&dmy, sizeof(uint8_t), 1, fp);     //読み捨てる
+        if (len != 1) {
+          fprintf(stderr, "Error: %s is unknown format.\n", filename);
+          fclose(fp);
+          return NULL;
+        }
+      } // end for
+    }
+  } // end while
 
   memcpy(&datasize, buf + 4, sizeof(datasize)); //波形データのサイズの取得
 
@@ -357,14 +360,14 @@ int main(int argc, char *argv[])
   if (snd->channelnum == 1) {
     for (i = 0; i < snd->datanum; i++) {
       x = snd->monaural16[i] + 0x7fff;
-      fprintf(fp, "0x%4x,\n", x);
+      fprintf(fp, "0x%04x,\n", x);
       if (max < x) max = x;
       if (min > x) min = x;
     }
   } else {
     for (i = 0; i < snd->datanum; i++) {
       x = (snd->stereo16[i].l + snd->stereo16[i].r) / 2 + 0x7fff;
-      fprintf(fp, "0x%4x,\n", x);
+      fprintf(fp, "0x%04x,\n", x);
       if (max < x) max = x;
       if (min > x) min = x;
     }
