@@ -1,13 +1,19 @@
 # esp-idf-a2dp-source
 ESP32 Bluetooth A2DP-SOURCE for esp-idf.
 
-ESP-IDF contains a2dp source example.
+ESP-IDF contains a2dp source example.   
 https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/classic_bt/a2dp_source
 
-However, this sample sends random noise data, not music.   
+However, this example sends random noise data, not music.   
 This project sends WAV(RIFF waveform Audio Format) data in A2DP.   
 You can listen WAV data using your bluetooth speaker.   
 I used [this](https://github.com/admiralmaggie/esp32_bt_source) as a reference.
+
+# Changes from the referenced code   
+- You can specify your speaker name using menuconfig.   
+- WAV data is defined as hexadecimal data.   
+ This reduces the size of the header file.   
+- A header file generator is attached.   
 
 # Hardware requirement    
 - Bluetooth speaker
