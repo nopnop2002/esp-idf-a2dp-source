@@ -30,8 +30,6 @@
 #define BT_AV_TAG				"BT_AV"
 #define BT_RC_CT_TAG			"RCCT"
 
-#define BT_SINK					"TG-148"
-
 // number of retries when connecting
 #define BT_CONNECT_RETRY 2
 
