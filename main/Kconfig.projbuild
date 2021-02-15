@@ -1,0 +1,9 @@
+menu "Application Configuration"
+
+	config SPEAKER_NAME
+		string "Bluetooth Speaker Name"
+		default "SPEAKER"
+		help
+			The name of the Bluetooth speaker to pair.
+
+endmenu
