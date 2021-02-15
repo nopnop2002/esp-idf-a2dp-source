@@ -7,7 +7,7 @@ ESP-IDF contains A2DP-SOURCE demo code.
 https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/classic_bt/a2dp_source
 
 However, this example sends random noise data, not music.   
-This project sends WAV(RIFF waveform Audio Format) data in A2DP.   
+This project sends WAV(RIFF waveform Audio Format) data using A2DP.   
 You can listen WAV data using your bluetooth speaker.   
 I used [this](https://github.com/admiralmaggie/esp32_bt_source) as a reference.
 
