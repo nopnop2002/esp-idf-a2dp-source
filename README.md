@@ -46,6 +46,7 @@ cd wav2code
 make
 ./wav2code futta-prayer3t.wav music.h
 cp music.h ../main/
+cd ..
 make flash monitor
 ```
 
