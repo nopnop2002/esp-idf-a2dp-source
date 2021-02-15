@@ -1,7 +1,7 @@
 # esp-idf-a2dp-source
 ESP32 Bluetooth A2DP-SOURCE for esp-idf.
 
-ESP-IDF contains A2DP-SOURCE example.   
+ESP-IDF contains A2DP-SOURCE demo code.   
 https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/classic_bt/a2dp_source
 
 However, this example sends random noise data, not music.   
