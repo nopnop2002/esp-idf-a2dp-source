@@ -39,7 +39,7 @@ You can use [this](https://www.nirsoft.net/utils/bluetooth_viewer.html) applicat
 
 # Convert WAV file to C header format   
 It is necessary to read the WAV file at high speed.   
-If you put the data in SPIFFS and read it, it will not be in time.   
+If you put the WAV file in SPIFFS and read it, it will not be in time.   
 It can be read at high speed by converting it to the C language header format.   
 I made this program with reference to [this](https://blog.goo.ne.jp/lm324/e/ca93257fc9861a07bb6b8f27caa7d382) site.   
 
@@ -53,7 +53,7 @@ make flash monitor
 ```
 
 # Free WAV file   
-I downloaded it from [here](https://music.futta.net/mp3.html).   
+I downloaded the WAV file from [here](https://music.futta.net/mp3.html).   
 There is many WAV format data in the Internet.   
 
 # Limitations   
