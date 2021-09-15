@@ -24,8 +24,9 @@ I used [this](https://github.com/admiralmaggie/esp32_bt_source) as a reference.
 ```
 git clone https://github.com/nopnop2002/esp-idf-a2dp-source
 cd esp-idf-a2dp-source
-make menuconfig
-make flash monitor
+idf.py set-target esp32
+idf.py menuconfig
+idf.py flash monitor
 ```
 
 # Configure
