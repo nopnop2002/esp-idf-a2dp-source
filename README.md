@@ -50,7 +50,7 @@ make
 ./wav2code futta-prayer3t.wav music.h
 cp music.h ../main/
 cd ..
-make flash monitor
+idf.py flash monitor
 ```
 
 # Free WAV file   
