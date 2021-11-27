@@ -35,8 +35,31 @@ You have to set this config value with menuconfig.
 Your bluetooth speaker name.   
 ![config-main](https://user-images.githubusercontent.com/6020549/107940288-5c267300-6fcb-11eb-9323-dd8a6cf77c9a.jpg)
 ![config-app](https://user-images.githubusercontent.com/6020549/107940298-5e88cd00-6fcb-11eb-8c4a-28639db1df96.jpg)   
-You can use [this](https://www.nirsoft.net/utils/bluetooth_viewer.html) application to find the name of your Bluetooth speaker.   
-![BluetoothView](https://user-images.githubusercontent.com/6020549/107940341-6f394300-6fcb-11eb-96ad-2bfa894812a3.jpg)
+
+You can use [this](https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/classic_bt/bt_discovery) to find the name of your Bluetooth speaker.   
+```
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (547) BTDM_INIT: BT controller compile version [7972edf]
+I (547) system_api: Base MAC address is not set
+I (547) system_api: read default base MAC address from EFUSE
+I (557) phy_init: phy_version 4670,719f9f6,Feb 18 2021,17:07:07
+I (1247) GAP: Discovery started.
+I (3847) GAP: Device found: 54:14:8e:38:a8:28
+I (3847) GAP: --Class of Device: 0x340404
+I (3847) GAP: --RSSI: -57
+I (3847) GAP: Found a target device, address 54:14:8e:38:a8:28, name TG-117
+I (3857) GAP: Cancel device discovery ...
+I (3867) GAP: Device found: 54:14:8e:38:a8:28
+I (3867) GAP: --Class of Device: 0x340404
+I (3877) GAP: --RSSI: -56
+I (3877) GAP: Device discovery stopped.
+I (3877) GAP: Discover services ...
+I (5337) GAP: Services for device 54:14:8e:38:a8:28 found
+I (5337) GAP: --1101
+I (5337) GAP: --111e
+I (5337) GAP: --110b
+I (5337) GAP: --110e
+```
 
 # Convert WAV file to C header format   
 It is necessary to read the WAV file at high speed.   
