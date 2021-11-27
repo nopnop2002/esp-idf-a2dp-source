@@ -47,7 +47,7 @@ I (1247) GAP: Discovery started.
 I (3847) GAP: Device found: 54:14:8e:38:a8:28
 I (3847) GAP: --Class of Device: 0x340404
 I (3847) GAP: --RSSI: -57
-I (3847) GAP: Found a target device, address 54:14:8e:38:a8:28, name TG-117
+I (3847) GAP: Found a target device, address 54:14:8e:38:a8:28, name TG-117 --> This is your speaker
 I (3857) GAP: Cancel device discovery ...
 I (3867) GAP: Device found: 54:14:8e:38:a8:28
 I (3867) GAP: --Class of Device: 0x340404
