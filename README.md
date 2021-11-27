@@ -23,7 +23,7 @@ esp-idf v4.4-dev-3573-gfb24a2941c-dirty or later.
 
 
 # Hardware requirement    
-- Bluetooth speaker
+Bluetooth speaker
 
 # Installation
 ```
