@@ -17,6 +17,11 @@ I used [this](https://github.com/admiralmaggie/esp32_bt_source) as a reference.
  This reduces the size of the header file.   
 - A header file generator is attached.   
 
+# Software requirement    
+esp-idf v4.4-dev-3573-gfb24a2941c-dirty or later.   
+[This](https://github.com/espressif/esp-idf/commit/52e7b99630288fd81d93b37f41b9eaca002b51b2) bug has been fixed.   
+
+
 # Hardware requirement    
 - Bluetooth speaker
 
