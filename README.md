@@ -9,9 +9,9 @@ https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/cl
 However, this example sends random noise data, not music.   
 This project sends WAV(RIFF waveform Audio Format) data using A2DP.   
 You can listen WAV data using your bluetooth speaker.   
-I used [this](https://github.com/admiralmaggie/esp32_bt_source) as a reference.
 
 # Changes from the referenced code   
+I used [this](https://github.com/admiralmaggie/esp32_bt_source) as a reference.   
 - You can specify your speaker name using menuconfig.   
 - WAV data is defined as hexadecimal data.   
  This reduces the size of the header file.   
