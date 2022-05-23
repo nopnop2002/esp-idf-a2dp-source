@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
-#include "freertos/xtensa_api.h"
+//#include "freertos/xtensa_api.h"
 #include "freertos/FreeRTOSConfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
@@ -17,12 +17,22 @@
 #include "esp_log.h"
 #include "bt_app_core.h"
 
+/*********************************
+ * STATIC FUNCTION DECLARATIONS
+ ********************************/
+
+/* application task handler */
 static void bt_app_task_handler(void *arg);
+/* message sender for Work queue */
 static bool bt_app_send_msg(bt_app_msg_t *msg);
+/* handler for dispatched message */
 static void bt_app_work_dispatched(bt_app_msg_t *msg);
 
-static xQueueHandle s_bt_app_task_queue = NULL;
-static xTaskHandle s_bt_app_task_handle = NULL;
+/*********************************
+ * STATIC VARIABLE DEFINITIONS
+ ********************************/
+static QueueHandle_t s_bt_app_task_queue = NULL;
+static TaskHandle_t s_bt_app_task_handle = NULL;
 
 bool bt_app_work_dispatch(bt_app_cb_t p_cback, uint16_t event, void *p_params, int param_len, bt_app_copy_cb_t p_copy_cback)
 {
@@ -57,7 +67,7 @@ static bool bt_app_send_msg(bt_app_msg_t *msg)
         return false;
     }
 
-    if (xQueueSend(s_bt_app_task_queue, msg, 10 / portTICK_RATE_MS) != pdTRUE) {
+    if (xQueueSend(s_bt_app_task_queue, msg, 10 / portTICK_PERIOD_MS) != pdTRUE) {
         ESP_LOGE(BT_APP_CORE_TAG, "%s xQueue send failed", __func__);
         return false;
     }
@@ -75,7 +85,7 @@ static void bt_app_task_handler(void *arg)
 {
     bt_app_msg_t msg;
     for (;;) {
-        if (pdTRUE == xQueueReceive(s_bt_app_task_queue, &msg, (portTickType)portMAX_DELAY)) {
+        if (pdTRUE == xQueueReceive(s_bt_app_task_queue, &msg, (TickType_t)portMAX_DELAY)) {
             ESP_LOGD(BT_APP_CORE_TAG, "%s, sig 0x%x, 0x%x", __func__, msg.sig, msg.event);
             switch (msg.sig) {
             case BT_APP_SIG_WORK_DISPATCH:
