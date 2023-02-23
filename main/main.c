@@ -7,6 +7,7 @@
 */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -75,7 +76,8 @@ static int32_t bt_app_a2d_data_cb(uint8_t *data, int32_t len);
 /// callback function for AVRCP controller
 static void bt_app_rc_ct_cb(esp_avrc_ct_cb_event_t event, esp_avrc_ct_cb_param_t *param);
 
-static void a2d_app_heart_beat(void *arg);
+//static void a2d_app_heart_beat(void *arg);
+static void a2d_app_heart_beat(TimerHandle_t xTimer);
 
 /// A2DP application state machine
 static void bt_app_av_sm_hdlr(uint16_t event, void *param);
@@ -212,11 +214,11 @@ static void filter_inquiry_scan_result(esp_bt_gap_cb_param_t *param)
 		switch (p->type) {
 		case ESP_BT_GAP_DEV_PROP_COD:
 			cod = *(uint32_t *)(p->val);
-			ESP_LOGI(BT_AV_TAG, "--Class of Device: 0x%x", cod);
+			ESP_LOGI(BT_AV_TAG, "--Class of Device: 0x%"PRIx32, cod);
 			break;
 		case ESP_BT_GAP_DEV_PROP_RSSI:
 			rssi = *(int8_t *)(p->val);
-			ESP_LOGI(BT_AV_TAG, "--RSSI: %d", rssi);
+			ESP_LOGI(BT_AV_TAG, "--RSSI: %"PRIi32, rssi);
 			break;
 		case ESP_BT_GAP_DEV_PROP_EIR:
 			eir = (uint8_t *)(p->val);
@@ -308,11 +310,11 @@ void bt_app_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 
 #if (CONFIG_BT_SSP_ENABLED == true)
 	case ESP_BT_GAP_CFM_REQ_EVT:
-		ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %d", param->cfm_req.num_val);
+		ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %"PRIu32, param->cfm_req.num_val);
 		esp_bt_gap_ssp_confirm_reply(param->cfm_req.bda, true);
 		break;
 	case ESP_BT_GAP_KEY_NOTIF_EVT:
-		ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_KEY_NOTIF_EVT passkey:%d", param->key_notif.passkey);
+		ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_KEY_NOTIF_EVT passkey:%"PRIu32, param->key_notif.passkey);
 		break;
 	case ESP_BT_GAP_KEY_REQ_EVT:
 		ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_KEY_REQ_EVT Please enter passkey!");
@@ -367,8 +369,7 @@ static void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
 		/* create and start heart beat timer */
 		do {
 			int tmr_id = 0;
-			s_tmr = xTimerCreate("connTmr", (10000 / portTICK_PERIOD_MS),
-							   pdTRUE, (void *) &tmr_id, a2d_app_heart_beat);
+			s_tmr = xTimerCreate("connTmr", (10000 / portTICK_PERIOD_MS), pdTRUE, (void *) &tmr_id, a2d_app_heart_beat);
 			xTimerStart(s_tmr, portMAX_DELAY);
 		} while (0);
 		break;
@@ -386,7 +387,7 @@ static void bt_app_a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param)
 
 static int32_t bt_app_a2d_data_cb(uint8_t *data, int32_t len)
 {
-//nop
+	//nop
 	static int32_t music_pointer = 0;
 	if (len < 0 || data == NULL) {
 		return 0;
@@ -407,7 +408,8 @@ static int32_t bt_app_a2d_data_cb(uint8_t *data, int32_t len)
 	return len;
 }
 
-static void a2d_app_heart_beat(void *arg)
+//static void a2d_app_heart_beat(void *arg)
+static void a2d_app_heart_beat(TimerHandle_t xTimer)
 {
 	bt_app_work_dispatch(bt_app_av_sm_hdlr, BT_APP_HEART_BEAT_EVT, NULL, 0, NULL);
 }
@@ -696,7 +698,7 @@ static void bt_av_hdl_avrc_ct_evt(uint16_t event, void *p_param)
 		break;
 	}
 	case ESP_AVRC_CT_REMOTE_FEATURES_EVT: {
-		ESP_LOGI(BT_RC_CT_TAG, "AVRC remote features %x, TG features %x", rc->rmt_feats.feat_mask, rc->rmt_feats.tg_feat_flag);
+		ESP_LOGI(BT_RC_CT_TAG, "AVRC remote features %"PRIx32", TG features %x", rc->rmt_feats.feat_mask, rc->rmt_feats.tg_feat_flag);
 		break;
 	}
 	case ESP_AVRC_CT_GET_RN_CAPABILITIES_RSP_EVT: {
