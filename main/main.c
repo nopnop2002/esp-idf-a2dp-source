@@ -284,7 +284,7 @@ void bt_app_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 	case ESP_BT_GAP_AUTH_CMPL_EVT: {
 		if (param->auth_cmpl.stat == ESP_BT_STATUS_SUCCESS) {
 			ESP_LOGI(BT_AV_TAG, "authentication success: %s", param->auth_cmpl.device_name);
-			esp_log_buffer_hex(BT_AV_TAG, param->auth_cmpl.bda, ESP_BD_ADDR_LEN);
+			ESP_LOG_BUFFER_HEXDUMP(BT_AV_TAG, param->auth_cmpl.bda, ESP_BD_ADDR_LEN, ESP_LOG_INFO);
 		} else {
 			ESP_LOGE(BT_AV_TAG, "authentication failed, status:%d", param->auth_cmpl.stat);
 		}
@@ -340,8 +340,11 @@ static void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
 	case BT_APP_EVT_STACK_UP: {
 		/* set up device name */
 		char *dev_name = "ESP_A2DP_SRC";
-		//esp_bt_dev_set_device_name(dev_name);
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)
 		esp_bt_gap_set_device_name(dev_name);
+#else
+		esp_bt_dev_set_device_name(dev_name);
+#endif
 
 		/* register GAP callback function */
 		esp_bt_gap_register_callback(bt_app_gap_cb);
