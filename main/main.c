@@ -540,7 +540,7 @@ static void bt_app_av_media_proc(uint16_t event, void *param)
 		if (event == BT_APP_HEART_BEAT_EVT) {
 			if (++s_intv_cnt >= 10) {
 				ESP_LOGI(BT_AV_TAG, "a2dp media stopping...");
-				esp_a2d_media_ctrl(ESP_A2D_MEDIA_CTRL_STOP);
+				esp_a2d_media_ctrl(ESP_A2D_MEDIA_CTRL_SUSPEND);
 				s_media_state = APP_AV_MEDIA_STATE_STOPPING;
 				s_intv_cnt = 0;
 			}
@@ -551,7 +551,7 @@ static void bt_app_av_media_proc(uint16_t event, void *param)
 	case APP_AV_MEDIA_STATE_STOPPING: {
 		if (event == ESP_A2D_MEDIA_CTRL_ACK_EVT) {
 			a2d = (esp_a2d_cb_param_t *)(param);
-			if (a2d->media_ctrl_stat.cmd == ESP_A2D_MEDIA_CTRL_STOP &&
+			if (a2d->media_ctrl_stat.cmd == ESP_A2D_MEDIA_CTRL_SUSPEND &&
 					a2d->media_ctrl_stat.status == ESP_A2D_MEDIA_CTRL_ACK_SUCCESS) {
 				ESP_LOGI(BT_AV_TAG, "a2dp media stopped successfully, disconnecting...");
 				s_media_state = APP_AV_MEDIA_STATE_IDLE;
@@ -559,7 +559,7 @@ static void bt_app_av_media_proc(uint16_t event, void *param)
 				s_a2d_state = APP_AV_STATE_DISCONNECTING;
 			} else {
 				ESP_LOGI(BT_AV_TAG, "a2dp media stopping...");
-				esp_a2d_media_ctrl(ESP_A2D_MEDIA_CTRL_STOP);
+				esp_a2d_media_ctrl(ESP_A2D_MEDIA_CTRL_SUSPEND);
 			}
 		}
 		break;
